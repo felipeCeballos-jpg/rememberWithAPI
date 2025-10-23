@@ -59,6 +59,11 @@ export const stickerInfo = {
     alt: 'Bear Sticker',
     className: 'bear-img sticker-img',
   },
+  candle: {
+    src: 'assets/candle.png',
+    alt: 'Candle Sticker',
+    className: 'candle-img sticker-img',
+  },
 };
 
 export const RUText = [

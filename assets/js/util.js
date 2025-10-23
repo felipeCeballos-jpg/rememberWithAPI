@@ -129,9 +129,10 @@ export async function sendMessage(
   }
 }
 
-export function loadMoreMessages(container, data, hasAllMessages = false) {
-  if (hasAllMessages) {
-    const parent = document.querySelector('#memory-msg-container');
+export function loadMoreMessages(container, data, pagination) {
+  const parent = document.querySelector('#memory-msg-container');
+
+  if (pagination.currentPage === pagination.lastPage) {
     const moreMsgButton = document.querySelector('.load-more-msg-button');
 
     // Add divider at the top of new messages if there are existing messages
@@ -143,16 +144,45 @@ export function loadMoreMessages(container, data, hasAllMessages = false) {
     }
 
     data.forEach((element, index) => {
+      const num = container.childNodes.length;
+      const leftOrRightClass =
+        num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
+
       const messageElement = createContainerMessage(
         element,
-        data.length - 1,
-        index
+        data.length - 1 === index,
+        leftOrRightClass
       );
       container.append(messageElement);
     });
 
     parent.removeChild(moreMsgButton);
+    return;
   }
+
+  const containerChildren = container.childNodes;
+
+  if (containerChildren.length > 1) {
+    const divider = document.createElement('p');
+    divider.classList.add('asterisk-divider');
+    divider.textContent = '***';
+
+    containerChildren[containerChildren.length - 1].append(divider);
+  }
+
+  data.forEach((element, index) => {
+    const num = container.childNodes.length + 1;
+    const leftOrRightClass =
+      num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
+
+    const messageElement = createContainerMessage(
+      element,
+      data.length - 1 === index,
+      leftOrRightClass
+    );
+
+    container.append(messageElement);
+  });
 }
 
 export function loadingMessages(container, data) {
@@ -161,7 +191,15 @@ export function loadingMessages(container, data) {
   container.textContent = '';
 
   data.forEach((element, index) => {
-    const messageElement = createContainerMessage(element, lastPosition, index);
+    const num = index + 1;
+    const leftOrRightClass =
+      num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
+
+    const messageElement = createContainerMessage(
+      element,
+      lastPosition === index,
+      leftOrRightClass
+    );
     container.append(messageElement);
   });
 }
@@ -186,50 +224,74 @@ function createLoadingMoreMessagesButton() {
   return loadMoreButton;
 }
 
-function createContainerMessage(element, lastPosition, positionElement) {
-  const messagecontainer = document.createElement('div');
-  messagecontainer.classList.add('msg-container');
-
-  const num = positionElement + 1;
-  const leftOrRightClass =
-    num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
-  const date = getDateFormat(element.created_at);
-
-  const msgContainer = document.createElement('div');
+function imageMessageContainer(sticker) {
   const stickerImageContainer = document.createElement('div');
   const image = document.createElement('img');
+
+  stickerImageContainer.classList.add('stickers-img-container');
+
+  image.src = stickerInfo[sticker].src;
+  image.alt = stickerInfo[sticker].alt;
+  let imageClassName = stickerInfo[sticker].className.split(' ');
+  image.classList.add(...imageClassName);
+  stickerImageContainer.appendChild(image);
+
+  return stickerImageContainer;
+}
+
+function descriptionMessageContainer(name, description, date) {
   const msgDescription = document.createElement('div');
   const msgDate = document.createElement('p');
   const msgName = document.createElement('p');
   const msgMessage = document.createElement('p');
 
-  msgContainer.classList.add('msg-subcontainer', leftOrRightClass);
-  stickerImageContainer.classList.add('stickers-img-container');
-
-  image.src = stickerInfo[element.sticker].src;
-  image.alt = stickerInfo[element.sticker].alt;
-  let imageClassName = stickerInfo[element.sticker].className.split(' ');
-  image.classList.add(...imageClassName);
-  stickerImageContainer.appendChild(image);
-
   msgDescription.classList.add('msg-description');
   msgDate.classList.add('msg-date');
   msgDate.textContent = date;
   msgName.classList.add('msg-name');
-  msgName.textContent = element.name;
+  msgName.textContent = name;
   msgMessage.classList.add('msg-message');
-  msgMessage.textContent = element.description;
+  msgMessage.textContent = description;
 
   msgDescription.appendChild(msgDate);
   msgDescription.appendChild(msgName);
   msgDescription.appendChild(msgMessage);
 
+  return msgDescription;
+}
+
+function messageSubContainer(className, stickerImageContainer, msgDescription) {
+  const msgContainer = document.createElement('div');
+
+  msgContainer.classList.add('msg-subcontainer', className);
+
   msgContainer.appendChild(stickerImageContainer);
   msgContainer.appendChild(msgDescription);
 
-  messagecontainer.appendChild(msgContainer);
+  return msgContainer;
+}
 
-  if (lastPosition != positionElement) {
+function createContainerMessage(data, isLastPostion, subContainerClassName) {
+  const messagecontainer = document.createElement('div');
+  messagecontainer.classList.add('msg-container');
+
+  const date = getDateFormat(data.created_at);
+
+  const currentImage = imageMessageContainer(data.sticker);
+  const currentDescription = descriptionMessageContainer(
+    data.name,
+    data.description,
+    date
+  );
+  const currentMessageSubContainer = messageSubContainer(
+    subContainerClassName,
+    currentImage,
+    currentDescription
+  );
+
+  messagecontainer.appendChild(currentMessageSubContainer);
+
+  if (!isLastPostion) {
     const divider = document.createElement('p');
     divider.classList.add('asterisk-divider');
     divider.textContent = '***';

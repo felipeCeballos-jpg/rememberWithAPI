@@ -169,6 +169,10 @@
     height: auto;
   }
 
+  .candle-img {
+    height: 15.5vmin;
+  }
+
   .asterisk-divider {
     margin: 7vmin 0;
     font-size: 5vw;
@@ -234,12 +238,17 @@
 
   .stickers-input {
     justify-content: center;
-    gap: 4vmin;
+    gap: 2vmin;
   }
 
   .sticker-candy {
     width: 17vmin;
     height: auto;
+  }
+
+  .sticker-candle {
+    height: 12vmin;
+    width: auto;
   }
 
   .sticker-flower {
@@ -400,6 +409,10 @@
     width: 20vmax;
   }
 
+  .candle-img {
+    height: 15.5vmax;
+  }
+
   .asterisk-divider {
     margin: 7vmax 0;
   }
@@ -444,6 +457,10 @@
 
   .sticker-candy {
     width: 17vmax;
+  }
+
+  .sticker-candle {
+    height: 12vmax;
   }
 
   .sticker-flower {

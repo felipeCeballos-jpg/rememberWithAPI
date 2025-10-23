@@ -336,6 +336,10 @@ button {
   height: 6.277rem;
 }
 
+.candle-img {
+  height: 7.56rem;
+}
+
 .form-section {
   display: flex;
   flex-direction: column;
@@ -488,7 +492,7 @@ textarea {
 .stickers-input {
   width: 100%;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   border: 2px solid transparent;
 }
 
@@ -497,33 +501,66 @@ textarea {
 }
 
 .sticker-button {
-  width: 5.541rem;
+  width: 5.25rem;
   height: 4.894rem;
   cursor: pointer !important;
   display: grid;
-  place-content: center;
-  transition: transform 0.3s;
+  place-items: center;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.sticker-button:hover {
-  transform: scale(1.2);
+.init-sticker,
+.hover-sticker {
+  transition: all 0.3s ease;
 }
 
-.selected-sticker {
-  transform: scale(1.2);
+.init-sticker {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.hover-sticker {
+  transform: scale(1.05);
+  opacity: 0;
+}
+
+.hover-sticker.selected-sticker {
+  opacity: 1;
 }
 
 .sticker-candy {
   width: 5.051rem;
+  height: 3.78rem;
+}
+
+.sticker-candy-color {
+  display: none;
+}
+
+.sticker-candle {
+  height: 4.509rem;
+}
+
+.sticker-candle-color {
+  display: none;
 }
 
 .sticker-flower {
   width: 2.991rem;
+  height: 3.971rem;
+}
+
+.sticker-flower-color {
+  display: none;
 }
 
 .sticker-bear {
-  width: 3.481rem;
+  width: 55px;
+  height: 72px;
+}
+
+.sticker-bear-color {
+  display: none;
 }
 
 .glasses-container {

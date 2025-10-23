@@ -20,8 +20,12 @@ const switchLanguageButton = document.querySelector('.language-button');
 const html = document.querySelector('html');
 const form = document.querySelector('.form-container');
 const stickers = document.querySelectorAll('.sticker-button');
+const stickersInput = document.querySelector('.stickers-input');
 const hiddenStickerInput = document.querySelector('#selectedsticker');
 const messageContainer = document.querySelector('.msgs-container');
+const ALLOWED_STICKERS = new Set(['candy', 'candle', 'flower', 'bear']);
+
+let selectedBtn = null;
 
 // Set media queries
 const mqlMobile = window.matchMedia('(max-width: 800px)');
@@ -132,7 +136,48 @@ form.addEventListener('submit', (event) => {
   });
 });
 
-stickers.forEach((sticker) => {
+stickersInput.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sticker-button');
+  if (!btn || !ALLOWED_STICKERS.has(btn.dataset.value)) return;
+
+  // 1. Clear previously-selected visual state (if any)
+  if (selectedBtn) toggleButtonImages(selectedBtn, false);
+
+  // 2. Apply visual “selected” state to the newly clicked button
+  toggleButtonImages(btn, true);
+  selectedBtn = btn;
+
+  // 3. Persist value & clear validation error
+  hiddenStickerInput.value = btn.dataset.value;
+  clearStickerError(stickersInput);
+});
+
+/* HOVER */
+stickersInput.addEventListener('pointerover', (e) => {
+  const btn = e.target.closest('.sticker-button');
+  if (!btn || btn === selectedBtn) return; // ignore if already selected
+  toggleButtonImages(btn, true);
+});
+
+stickersInput.addEventListener('pointerout', (e) => {
+  const btn = e.target.closest('.sticker-button');
+  if (!btn || btn === selectedBtn) return;
+  toggleButtonImages(btn, false);
+});
+
+/* HELPER ──────────────────────────────────────────────────────────── */
+function toggleButtonImages(button, showHoverVersion) {
+  const init = button.querySelector('.init-sticker');
+  const hover = button.querySelector('.hover-sticker');
+
+  init.style.display = showHoverVersion ? 'none' : 'block';
+  hover.style.display = showHoverVersion ? 'block' : 'none';
+
+  init.classList.toggle('selected-sticker', showHoverVersion);
+  hover.classList.toggle('selected-sticker', showHoverVersion);
+}
+
+/* stickers.forEach((sticker) => {
   sticker.addEventListener('click', () => {
     const sticker_imgs = document.querySelectorAll('.sticker');
     const stickersContainer = document.querySelector('.stickers-input');
@@ -151,7 +196,8 @@ stickers.forEach((sticker) => {
     if (
       sticker.dataset.value === 'bear' ||
       sticker.dataset.value === 'flower' ||
-      sticker.dataset.value === 'candy'
+      sticker.dataset.value === 'candy' ||
+      sticker.dataset.value === 'candle'
     ) {
       // store value in hidden input
       hiddenStickerInput.value = sticker.dataset.value;
@@ -166,6 +212,7 @@ stickers.forEach((sticker) => {
     );
   });
 });
+*/
 
 document.addEventListener('click', async (e) => {
   if (e.target.closest('.load-more-msg-button')) {
@@ -177,11 +224,13 @@ document.addEventListener('click', async (e) => {
         throw Error('Something went wrong');
       }
 
-      loadMoreMessages(
-        messageContainer,
-        response.data.data,
-        response.data.current_page === response.data.last_page
-      );
+      const pagination = {
+        currentPage: response.data.current_page,
+        lastPage: response.data.last_page,
+        total: response.data.total,
+      };
+
+      loadMoreMessages(messageContainer, response.data.data, pagination);
 
       requestAnimationFrame(() => {
         window.scrollTo(0, scrollPosition);
