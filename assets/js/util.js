@@ -132,16 +132,26 @@ export async function sendMessage(
 export function loadMoreMessages(container, data, pagination) {
   const parent = document.querySelector('#memory-msg-container');
 
+   const containerChildren = container.childNodes;
+
+  if (containerChildren.length > 1) {
+    const divider = document.createElement('p');
+    divider.classList.add('asterisk-divider');
+    divider.textContent = '***';
+
+    containerChildren[containerChildren.length - 1].append(divider);
+  }
+
   if (pagination.currentPage === pagination.lastPage) {
     const moreMsgButton = document.querySelector('.load-more-msg-button');
 
-    // Add divider at the top of new messages if there are existing messages
+    /*// Add divider at the top of new messages if there are existing messages
     if (container.children.length > 0 && data.length > 0) {
       const topDivider = document.createElement('p');
       topDivider.classList.add('asterisk-divider');
       topDivider.textContent = '***';
       container.append(topDivider);
-    }
+    }*/
 
     data.forEach((element, index) => {
       const num = container.childNodes.length;
@@ -158,16 +168,6 @@ export function loadMoreMessages(container, data, pagination) {
 
     parent.removeChild(moreMsgButton);
     return;
-  }
-
-  const containerChildren = container.childNodes;
-
-  if (containerChildren.length > 1) {
-    const divider = document.createElement('p');
-    divider.classList.add('asterisk-divider');
-    divider.textContent = '***';
-
-    containerChildren[containerChildren.length - 1].append(divider);
   }
 
   data.forEach((element, index) => {
@@ -304,7 +304,6 @@ function createContainerMessage(data, isLastPostion, subContainerClassName) {
 
 export function newMessage(container, db) {
   const lastMessage = document.querySelectorAll('.msg-container');
-  console.log({ lastMessage });
 }
 
 export function getLanguage() {
