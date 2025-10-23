@@ -507,6 +507,7 @@ textarea {
   display: grid;
   place-items: center;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  touch-action: manipulation;
 }
 
 .init-sticker,
