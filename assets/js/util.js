@@ -154,7 +154,7 @@ export function loadMoreMessages(container, data, pagination) {
     }*/
 
     data.forEach((element, index) => {
-      const num = container.childNodes.length;
+      const num = container.childNodes.length + 1;
       const leftOrRightClass =
         num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
 
