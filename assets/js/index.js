@@ -108,7 +108,10 @@ form.addEventListener('submit', (event) => {
   const message = document.querySelector('#Message');
   const sticker = document.querySelector('#selectedsticker');
   const stickersContainer = document.querySelector('.stickers-input');
+  const submitButton = document.querySelector('.form-submit-button');
   const scrollPosition = window.scrollY;
+
+  submitButton.disabled = true;
 
   // Validate all fields and show errors
   const isNameValid = validateField(name, html.lang);
@@ -116,6 +119,7 @@ form.addEventListener('submit', (event) => {
   const isStickerValid = validateSticker(sticker, stickersContainer);
 
   if (!isNameValid || !isMessageValid || !isStickerValid) {
+    submitButton.disabled = false;
     return;
   }
 
@@ -129,6 +133,7 @@ form.addEventListener('submit', (event) => {
     name.value = '';
     message.value = '';
     sticker.value = '';
+    submitButton.disabled = false;
   });
 
   requestAnimationFrame(() => {
