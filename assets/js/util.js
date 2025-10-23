@@ -132,14 +132,14 @@ export async function sendMessage(
 export function loadMoreMessages(container, data, pagination) {
   const parent = document.querySelector('#memory-msg-container');
 
-   const containerChildren = container.childNodes;
+   const containerChildren = container.childElementCount;
 
-  if (containerChildren.length > 1) {
+  if (containerChildren > 1) {
     const divider = document.createElement('p');
     divider.classList.add('asterisk-divider');
     divider.textContent = '***';
 
-    containerChildren[containerChildren.length - 1].append(divider);
+    container.children[containerChildren - 1].append(divider);
   }
 
   if (pagination.currentPage === pagination.lastPage) {
@@ -154,7 +154,7 @@ export function loadMoreMessages(container, data, pagination) {
     }*/
 
     data.forEach((element, index) => {
-      const num = container.childNodes.length + 1;
+      const num = container.childElementCount + 1;
       const leftOrRightClass =
         num % 2 === 0 ? 'msg-subcontainer-right' : 'msg-subcontainer-left';
 
