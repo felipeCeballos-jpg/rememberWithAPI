@@ -398,15 +398,11 @@ label {
   font-family: 'candaralight', sans-serif;
   font-weight: 600;
   appearance: none;
-  background: transparent;
-  border: 1.5px solid #000000;
+  border: 1.5px solid transparent;
   color: #000000;
   padding: 10px 12px;
   border-radius: 2px;
   line-height: 1.5;
-  transition: border-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 180ms cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .text-input::placeholder {
   color: #000000;
@@ -414,16 +410,24 @@ label {
 
 .text-input:focus {
   outline: none;
-  border-color: #000000;
+  border-color: transparent;
 }
 
-.input-invalid,
+
+.input-invalid {
+  background-image: url("./assets/error_input_frame.webp");
+}
+
 .message-invalid {
-  border: 1.7px solid #c73e3e !important;
+  background-image: url('./assets/error_description_frame.webp');
 }
 
 .stickers-invalid {
-  border: 1.7px solid #c73e3e !important;
+  background-image: url('./assets/error_sticker_frame.webp');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1.5px solid transparent;
 }
 
 @keyframes fadeInError {
@@ -468,11 +472,35 @@ label {
   animation: fadeOutError 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+
+input {
+  background-image: url('./assets/input_frame.webp');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #c73e3e;
+}
+
 textarea {
+  background-image: url('./assets/description_frame.webp');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #c73e3e;
   resize: none;
   min-height: 200px;
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+
+input::after {
+  content: '';
+  background-image: url('./assets/error_input_frame.webp');
+}
+
+textarea::after {
+  content: '';
+  background-image: url('./assets/error_description_frame.webp');
 }
 
 .form-submit-container {
@@ -493,7 +521,8 @@ textarea {
   width: 100%;
   display: flex;
   gap: 0.5rem;
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
+  padding: 8px;
 }
 
 .submit-button-img {

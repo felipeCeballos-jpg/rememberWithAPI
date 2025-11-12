@@ -128,18 +128,32 @@ form.addEventListener('submit', (event) => {
     description: message.value,
     sticker: sticker.value,
   };
+  loader.style.display = 'flex';
+  const startMessageLoadingTime = Date.now();
 
-  sendMessage(messageContainer, newMessage).then(() => {
-    name.value = '';
-    message.value = '';
-    sticker.value = '';
-    submitButton.disabled = false;
-  });
+
+  sendMessage(messageContainer, newMessage)
+    .then(() => {
+      name.value = '';
+      message.value = '';
+      sticker.value = '';
+      clearStickersSelection(stickersContainer);
+    })
+    .finally(() => {
+      checkLoaded(startMessageLoadingTime, loader, true);
+    });
 
   requestAnimationFrame(() => {
     window.scrollTo(0, scrollPosition);
   });
 });
+
+function clearStickersSelection(container) {
+  container.querySelectorAll('.sticker-button').forEach((item) => {
+    selectedBtn = null;
+    toggleButtonImages(item, false);
+  });
+}
 
 stickersInput.addEventListener('click', (e) => {
   const btn = e.target.closest('.sticker-button');

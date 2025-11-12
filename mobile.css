@@ -239,6 +239,7 @@
   .stickers-input {
     justify-content: center;
     gap: 2vmin;
+    padding: 1vmin;
   }
 
   .sticker-candy {
@@ -453,6 +454,7 @@
 
   .stickers-input {
     gap: 4vmax;
+    padding: 1vmax;
   }
 
   .sticker-candy {
