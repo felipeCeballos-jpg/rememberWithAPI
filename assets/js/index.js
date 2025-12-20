@@ -208,9 +208,13 @@ modalForm.addEventListener('submit', (event) => {
       console.log({ error });
     })
     .finally(() => {
-      modalFormLoader.style.display = 'none';
       email.value = '';
-      initModalDescriptionImg(html.lang, mqlMobile.matches);
+
+      setTimeout(() => {
+        modalFormLoader.style.display = 'none';
+        localStorage.setItem('canOpenModal', 'false');
+        modal.style.display = 'none';
+      }, 2000);
     });
 });
 
