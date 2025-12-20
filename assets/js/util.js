@@ -1,5 +1,5 @@
 import { INITIAL_LANGUAGE, localizedText, stickerInfo } from './constant.js';
-import { updateImages } from './image.js';
+import { preloadModalBackground, updateImages } from './image.js';
 
 export let paginationPage = 1;
 
@@ -850,6 +850,8 @@ export function clearStickerError(stickersContainer) {
 
 export function initModalDescriptionImg(lang, isMobile) {
   if (!isMobile) return;
+
+  preloadModalBackground(isMobile, lang)
 
   const modalResponse = document.querySelector('.modal-response');
   const element = document.querySelector('.modal-description-img');

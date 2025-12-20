@@ -84,3 +84,26 @@ export async function updateImages(language) {
     };
   }
 }
+
+export function preloadModalBackground(isMobile,language) {
+  const images = [];
+
+  if (isMobile) {
+    images.push(
+      language === 'ru'
+        ? './assets/subscriber-mobile-ru.webp'
+        : './assets/subscriber-mobile-en.webp'
+    );
+  } else {
+    images.push(
+      language === 'ru'
+        ? './assets/subscriber-ru.webp'
+        : './assets/subscriber-en.webp'
+    );
+  }
+
+  images.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+}

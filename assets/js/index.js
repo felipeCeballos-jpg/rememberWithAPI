@@ -204,14 +204,17 @@ modalForm.addEventListener('submit', (event) => {
       message.classList.add('modal-response-img', 'success-email-response');
       element.appendChild(message);
     })
+    .then(() => {
+      setTimeout(() => {
+        modalFormLoader.style.display = 'none';
+        email.value = '';
+      }, 1500);
+    })
     .catch((error) => {
       console.log({ error });
     })
     .finally(() => {
-      
       setTimeout(() => {
-        modalFormLoader.style.display = 'none';
-        email.value = '';
         localStorage.setItem('canOpenModal', 'false');
         modal.style.display = 'none';
       }, 2000);
