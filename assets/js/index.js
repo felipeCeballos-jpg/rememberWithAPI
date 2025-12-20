@@ -208,10 +208,10 @@ modalForm.addEventListener('submit', (event) => {
       console.log({ error });
     })
     .finally(() => {
-      email.value = '';
-
+      
       setTimeout(() => {
         modalFormLoader.style.display = 'none';
+        email.value = '';
         localStorage.setItem('canOpenModal', 'false');
         modal.style.display = 'none';
       }, 2000);
