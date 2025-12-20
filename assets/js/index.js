@@ -165,7 +165,7 @@ messageForm.addEventListener('submit', (event) => {
   });
 });
 
-modalForm.addEventListener('submit', (event) => {
+modalForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const modalFormLoader = document.querySelector('.modal-form-loader');
@@ -180,8 +180,50 @@ modalForm.addEventListener('submit', (event) => {
   modalFormLoader.style.display = 'flex';
   const element = document.querySelector('.modal-response');
   const message = document.createElement('img');
+  let isSuccess = false;
 
-  subscribeToNewsletter(email.value)
+  try {
+    const response = await subscribeToNewsletter(email.value);
+
+    if (!response.success) {
+     let imageSrc =
+          html.lang === 'ru'
+            ? './assets/fail-ru.webp'
+            : './assets/fail-en.webp';
+        message.src = imageSrc;
+        message.alt = 'Error sending email';
+        message.classList.add('modal-response-img', 'error-email-response');
+        element.appendChild(message); 
+        isSuccess = false;
+    } else {
+      let imageSrc =
+      html.lang === 'ru'
+          ? './assets/success-ru.webp'
+          : './assets/success-en.webp';
+      message.src = imageSrc;
+      message.alt = 'Success sent email';
+      message.classList.add('modal-response-img', 'success-email-response');
+      element.appendChild(message);
+      isSuccess = true;
+    }
+  } catch (error) {
+    isSuccess = false;
+    console.log({ error });
+  }
+  finally {
+    setTimeout(() => {
+      modalFormLoader.style.display = 'none';
+      email.value = '';
+    }, 2000);
+
+    setTimeout(() => {
+        if (isSuccess) {
+          localStorage.setItem('canOpenModal', 'false');
+          modal.style.display = 'none';
+        }
+      }, 4000);
+  }
+  /*subscribeToNewsletter(email.value)
     .then((result) => {
       if (!result.success) {
         let imageSrc =
@@ -225,7 +267,7 @@ modalForm.addEventListener('submit', (event) => {
           modal.style.display = 'none';
         }
       }, 4000);
-    });
+    });*/
 });
 
 function clearStickersSelection(container) {

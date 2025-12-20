@@ -849,8 +849,9 @@ export function clearStickerError(stickersContainer) {
 }
 
 export function initModalDescriptionImg(lang, isMobile) {
-  if (!isMobile) return;
+  preloadModalBackground(isMobile, lang);
 
+  if (!isMobile) return;
   preloadModalBackground(isMobile, lang)
 
   const modalResponse = document.querySelector('.modal-response');
