@@ -192,31 +192,38 @@ modalForm.addEventListener('submit', (event) => {
         message.alt = 'Error sending email';
         message.classList.add('modal-response-img', 'error-email-response');
         element.appendChild(message);
-      } else {
-        let imageSrc =
-        html.lang === 'ru'
-            ? './assets/success-ru.webp'
-            : './assets/success-en.webp';
-        message.src = imageSrc;
-        message.alt = 'Success sent email';
-        message.classList.add('modal-response-img', 'success-email-response');
-        element.appendChild(message);
+        return false;
+
       }
 
+      let imageSrc =
+      html.lang === 'ru'
+          ? './assets/success-ru.webp'
+          : './assets/success-en.webp';
+      message.src = imageSrc;
+      message.alt = 'Success sent email';
+      message.classList.add('modal-response-img', 'success-email-response');
+      element.appendChild(message);
+      
+      return true;
     })
-    .then(() => {
+    .then((response) => {
       setTimeout(() => {
         modalFormLoader.style.display = 'none';
         email.value = '';
       }, 2000);
+
+      return response;
     })
     .catch((error) => {
       console.log({ error });
     })
-    .finally(() => {
+    .finally((response) => {
       setTimeout(() => {
-        localStorage.setItem('canOpenModal', 'false');
-        modal.style.display = 'none';
+        if (response) {
+          localStorage.setItem('canOpenModal', 'false');
+          modal.style.display = 'none';
+        }
       }, 4000);
     });
 });
