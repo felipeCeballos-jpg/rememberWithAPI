@@ -206,8 +206,10 @@ modalForm.addEventListener('submit', (event) => {
       element.appendChild(message);
     })
     .then(() => {
-      modalFormLoader.style.display = 'none';
-      email.value = '';
+      setTimeout(() => {
+        modalFormLoader.style.display = 'none';
+        email.value = '';
+      }, 1500);
     })
     .catch((error) => {
       console.log({ error });

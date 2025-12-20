@@ -102,7 +102,7 @@ export async function subscribeToNewsletter(email) {
     const data = await response.json();
     console.log({ data, response });
 
-    if (data.status !== 201) {
+    if (response.status !== 201) {
       return {
         success: false,
         message: 'Something when wrong with the newsletter subscription',
