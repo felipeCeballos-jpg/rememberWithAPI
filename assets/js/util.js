@@ -99,7 +99,10 @@ export async function subscribeToNewsletter(email) {
       }),
     });
 
+
     const data = await response.json();
+
+    console.log({ data, response, email });
 
     if (response.status !== 201) {
       return {
