@@ -210,6 +210,7 @@ modalForm.addEventListener('submit', (event) => {
     .finally(() => {
       modalFormLoader.style.display = 'none';
       email.value = '';
+      initModalDescriptionImg(html.lang, mqlMobile.matches);
     });
 });
 
