@@ -211,11 +211,9 @@ modalForm.addEventListener('submit', async (event) => {
     console.log({ error });
   }
   finally {
-    setTimeout(() => {
-      modalFormLoader.style.display = 'none';
-      email.value = '';
-    }, 2000);
-
+    modalFormLoader.style.display = 'none';
+    email.value = '';
+    
     setTimeout(() => {
         if (isSuccess) {
           localStorage.setItem('canOpenModal', 'false');
