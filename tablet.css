@@ -123,9 +123,9 @@
     left: 0rem;
   }
 
-  label,
-  input,
-  textarea {
+  .message-form-label,
+  .name-form-input,
+  .message-form-input {
     font-size: 1.575rem;
   }
 
@@ -135,4 +135,10 @@
     left: -26rem;
     bottom: -12rem;
   }
+}
+
+@media only screen and (max-width: 952px) {
+  /* .modal-form-content {
+    padding: 1.5vw 3.5vw 5px 3.5vw;
+  } */
 }

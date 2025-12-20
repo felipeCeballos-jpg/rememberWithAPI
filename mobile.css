@@ -194,14 +194,14 @@
     gap: 1vmin;
   }
 
-  label,
-  input,
-  textarea,
+  .message-form-label,
+  .name-form-input,
+  .message-form-input,
   .text-input {
     font-size: 4.4vw;
   }
 
-  textarea {
+  .message-form-input {
     min-height: 31vmin;
   }
 
@@ -296,6 +296,117 @@
   .stamp-text p,
   .stamp-text a {
     font-size: 2vw;
+  }
+
+  /* MODAL */
+  .modal-content {
+    width: calc(100% - 5vmin);
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 1920 / 2959;
+    background-image: url('./assets/subscribe-mobile-en.webp');
+    background-position: center top;
+    background-size: 100% 100%;
+  }
+
+  .modal-content:lang(ru) {
+    background-image: url('./assets/subscribe-mobile-ru.webp');
+  }
+
+  .modal-content-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1.2fr;
+    height: 60%;
+  }
+
+  .modal-form {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    background-image: url('./assets/form-border.webp');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    margin: 0vmin 8.5vmin 5vmin 8.5vmin;
+  }
+
+  .modal-response {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .modal-description-img {
+    position: relative;
+    width: 72.5%;
+    height: auto;
+    object-fit: contain;
+    top: -6.4%;
+    left: -0.25%;
+  }
+
+  .modal-description-img:lang(ru) {
+    width: 58.5%;
+    top: -5.4%;
+    left: -6.25%;
+  }
+
+  .modal-form-content {
+    padding: 2.2vmin clamp(8px, 2vmin, 12px) clamp(8px, 2vmin, 12px)
+      clamp(8px, 2vmin, 12px);
+    justify-content: space-between;
+  }
+
+  #modal-form-input-container {
+    margin-top: 0.5vmin;
+    margin-bottom: 1vmin;
+  }
+
+  .modal-form-tags {
+    max-width: 100%;
+  }
+
+  .modal-form-label {
+    font-size: clamp(11px, 2.5vw, 16px);
+  }
+
+  .modal-form-input {
+    max-width: 100%;
+    font-size: clamp(12px, 2.8vw, 16px);
+    padding: clamp(8px, 2vmin, 12px);
+    background-image: url('./assets/border-modal-input-mobile.webp');
+  }
+
+  .modal-form-submit-button-img {
+    max-width: 100%;
+  }
+
+  .modal-response-img.error-email-response:lang(ru) {
+    width: 35%;
+    bottom: 2%;
+  }
+  .modal-response-img.error-email-response {
+    bottom: -2%;
+    width: 53%;
+  }
+
+  .modal-response-img.invalid-email-response:lang(ru) {
+    width: 52%;
+    bottom: 2%;
+  }
+
+  .modal-response-img.invalid-email-response {
+    bottom: -2%;
+    width: 58%;
+  }
+
+  .modal-response-img.success-email-response:lang(ru) {
+    width: 37%;
+    bottom: 3%;
+  }
+
+  .modal-response-img.success-email-response {
+    bottom: -5%;
+    width: 39%;
   }
 
   /* FOOTER */
@@ -426,7 +537,7 @@
     gap: 1vmax;
   }
 
-  textarea {
+  .message-form-input {
     min-height: 31vmax;
   }
 
@@ -488,6 +599,29 @@
 
   .soviet-union-img {
     width: 9vmax;
+  }
+
+  /* MODAL */
+  .modal-content {
+    width: calc(100% - 5vmax);
+  }
+
+  .modal-form {
+    margin: 0vmax 8.5vmax 5vmax 8.5vmax;
+  }
+
+  .modal-form-content {
+    padding: 2.2vmax clamp(8px, 2vmax, 12px) clamp(8px, 2vmax, 12px)
+      clamp(8px, 2vmax, 12px);
+  }
+
+  #modal-form-input-container {
+    margin-top: 0.5vmax;
+    margin-bottom: 1vmax;
+  }
+
+  .modal-form-input {
+    padding: clamp(8px, 2vmax, 12px);
   }
 
   /* FOOTER */

@@ -80,6 +80,7 @@ export const RUText = [
   //'Здравст',
   '© «ВСПОМНИМ»',
   'Связаться с внуком Сергеем:',
+  'Введите ваш e-mail:',
 ];
 
 export const ENText = [
@@ -96,6 +97,7 @@ export const ENText = [
   //'Hello...',
   '© «REMEMBER»',
   'Contact the grandson Sergey:',
+  'Enter Your Email:',
 ];
 
 export const footerRuTranslateImgs = [
@@ -123,12 +125,14 @@ export const originalRuImages = [
 
   './assets/remember-ru1.webp',
   './assets/print-button-ru.webp',
+  './assets/modal-button-ru.webp',
 ];
 
 export const originalEnImages = [
   './assets/klubok_ru.png',
   './assets/remember-en.webp',
   './assets/print-button-en.webp',
+  './assets/modal-button-en.webp',
 ];
 
 export const dinamicEnImages = ['./assets/read-next-button-en.webp'];

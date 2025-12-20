@@ -85,25 +85,29 @@
         </picture>
         <form class="form-container">
           <div class="field">
-            <label for="Name" class="changeable-txt">Name:</label>
+            <label for="Name" class="changeable-txt message-form-label"
+              >Name:</label
+            >
             <div class="input-wrapper">
               <input
                 id="Name"
                 name="Name"
                 type="text"
-                class="text-input"
+                class="text-input name-form-input"
                 autocomplete="off"
                 maxlength="90"
               />
             </div>
           </div>
           <div class="field">
-            <label for="Message" class="changeable-txt">Text:</label>
+            <label for="Message" class="changeable-txt message-form-label"
+              >Text:</label
+            >
             <div class="input-wrapper">
               <textarea
                 id="Message"
                 name="Message"
-                class="text-input"
+                class="text-input message-form-input"
                 autocomplete="off"
                 maxlength="600"
               ></textarea>
@@ -222,6 +226,55 @@
         <img src="./assets/navbook/navbook.webp" alt="" class="navbook" />
       </div>
     </footer>
+    <!-- The Modal Subscribe -->
+    <div id="modal-subscribe" class="modal">
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <div class="modal-content-container">
+          <div class="modal-form">
+            <div class="modal-form-loader">
+              <video
+                autoplay
+                muted
+                loop
+                preload="metadata"
+                class="loader-video"
+              >
+                <source src="./assets/parrot-loader.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <form class="modal-form-content">
+              <img
+                src="./assets/tags.webp"
+                alt="Decorations lines"
+                class="modal-form-tags"
+              />
+              <div id="modal-form-input-container">
+                <label
+                  for="modal-form-email"
+                  class="changeable-txt modal-form-label"
+                  >Enter Your Email:</label
+                >
+                <input
+                  id="modal-form-email"
+                  name="modal-form-email"
+                  class="modal-form-input"
+                  autocomplete="off"
+                />
+              </div>
+              <button class="modal-form-submit-button">
+                <img
+                  alt="Press to enviar the message"
+                  class="modal-form-submit-button-img changeable-img"
+                  src="./assets/modal-button-en.webp"
+                />
+              </button>
+            </form>
+          </div>
+          <div class="modal-response"></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="./assets/js/index.js"></script>
   </body>
 </html>

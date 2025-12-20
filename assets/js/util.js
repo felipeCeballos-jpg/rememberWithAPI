@@ -87,6 +87,40 @@ export function initMessages(container, data, pagination) {
   parent.appendChild(loadMoreButton);
 }
 
+export async function subscribeToNewsletter(email) {
+  try {
+    const response = await fetch('https://shoppingthings.app/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.status !== 201) {
+      return {
+        success: false,
+        message: 'Something when wrong with the newsletter subscription',
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Newsletter subscription successful',
+    };
+  } catch (error) {
+    console.log({ error });
+    return {
+      success: false,
+      message: 'Something when wrong with the newsletter subscription',
+    };
+  }
+}
+
 export async function sendMessage(
   messageContainer,
   { name, description, sticker }
@@ -132,7 +166,7 @@ export async function sendMessage(
 export function loadMoreMessages(container, data, pagination) {
   const parent = document.querySelector('#memory-msg-container');
 
-   const containerChildren = container.childElementCount;
+  const containerChildren = container.childElementCount;
 
   if (containerChildren > 1) {
     const divider = document.createElement('p');
@@ -482,13 +516,29 @@ export function getDateFormat() {
 }
 
 // Extract validation functions to be exportable
-function showError(input, customMessage) {
+function showError(input, customMessage, form = 'message') {
   // Add error class with animation
   if (input.tagName.toLowerCase() === 'textarea') {
     input.classList.add('message-invalid');
+  } else if (input.id === 'modal-form-email') {
+    input.classList.add('modal-form-email-invalid');
   } else {
     input.classList.add('input-invalid');
   }
+
+  /* if (form === 'modal') {
+    const modalFormWrapper = input.closest('#modal-form-input-container');
+    let errorElement = modalFormWrapper.querySelector('.invalid-email');
+
+    if (!errorElement) {
+      errorElement = document.createElement('div');
+      errorElement.className = 'invalid-email';
+      modalFormWrapper.appendChild(errorElement);
+    }
+
+    errorElement.textContent = customMessage;
+    return;
+  } */
 
   // Find or create error message element
   const wrapper = input.closest('.input-wrapper');
@@ -562,6 +612,48 @@ export function validateField(input, lang) {
 
   clearError(input);
   return true;
+}
+
+export function validatedEmail(input, lang) {
+  const modalResponse = document.querySelector('.modal-response');
+  const message = document.createElement('img');
+
+  if (modalResponse.children.length > 0) {
+    modalResponse.textContent = '';
+  }
+
+  if (input.value.trim() === '') {
+    let imageSrc =
+      lang === 'ru' ? './assets/fail-ru.webp' : './assets/fail-en.webp';
+    message.src = imageSrc;
+    message.alt = 'Error sending email';
+    message.classList.add('modal-response-img', 'error-email-response');
+
+    modalResponse.appendChild(message);
+    return false;
+  }
+
+  if (!isValidEmail(input.value)) {
+    let imageSrc =
+      lang === 'ru' ? './assets/email-ru.webp' : './assets/email-en.webp';
+    message.src = imageSrc;
+    message.alt = 'Invalid email';
+    message.classList.add('modal-response-img', 'invalid-email-response');
+
+    modalResponse.appendChild(message);
+    return false;
+  }
+
+  setTimeout(() => {
+    modalResponse.textContent = '';
+  }, 1000);
+
+  return true;
+}
+
+export function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 // Form validation controller
@@ -754,4 +846,27 @@ export function clearStickerError(stickersContainer) {
   if (errorElement) {
     errorElement.remove();
   } */
+}
+
+export function initModalDescriptionImg(lang, isMobile) {
+  if (!isMobile) return;
+
+  const modalResponse = document.querySelector('.modal-response');
+  const element = document.querySelector('.modal-description-img');
+  const response = document.querySelector('.modal-response-img');
+
+  if (!element) {
+    if (response) {
+      return;
+    }
+    const modalDescriptionImg = document.createElement('img');
+    let imageSrc =
+      lang === 'ru'
+        ? './assets/modal-description-ru.webp'
+        : './assets/modal-description-en.webp';
+    modalDescriptionImg.src = imageSrc;
+    modalDescriptionImg.alt = 'Modal description';
+    modalDescriptionImg.classList.add('modal-description-img');
+    modalResponse.appendChild(modalDescriptionImg);
+  }
 }

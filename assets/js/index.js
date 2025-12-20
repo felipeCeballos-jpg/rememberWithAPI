@@ -14,16 +14,21 @@ import {
   sideElementsAnimation,
   getMessages,
   paginationPage,
+  validatedEmail,
+  initModalDescriptionImg,
+  subscribeToNewsletter,
 } from './util.js';
 
 const switchLanguageButton = document.querySelector('.language-button');
 const html = document.querySelector('html');
-const form = document.querySelector('.form-container');
+const messageForm = document.querySelector('.form-container');
 const stickers = document.querySelectorAll('.sticker-button');
 const stickersInput = document.querySelector('.stickers-input');
 const hiddenStickerInput = document.querySelector('#selectedsticker');
 const messageContainer = document.querySelector('.msgs-container');
 const ALLOWED_STICKERS = new Set(['candy', 'candle', 'flower', 'bear']);
+const modal = document.querySelector('#modal-subscribe');
+const modalForm = document.querySelector('.modal-form-content');
 
 let selectedBtn = null;
 
@@ -44,9 +49,18 @@ window.addEventListener('load', () => {
 
 window.addEventListener('DOMContentLoaded', async () => {
   updateDesign(mqlMobile.matches);
+  initModalDescriptionImg(html.lang, mqlMobile.matches);
+  const canOpenModal = localStorage.getItem('canOpenModal');
+
+  if (!canOpenModal || canOpenModal === 'true') {
+    setTimeout(() => {
+      modal.style.display = 'flex';
+      localStorage.setItem('canOpenModal', 'true');
+    }, 10000);
+  }
 
   let messages = await getMessages();
-  initFormValidation(html.lang);
+  initFormValidation(html.lang, mqlMobile.matches);
   sideElementsAnimation();
   booksAnimation();
 
@@ -81,6 +95,8 @@ mqlMobile.addEventListener('change', (event) => {
   if (!event.matches) return;
   loader.style.display = 'flex';
 
+  initModalDescriptionImg(html.lang, event.matches);
+
   updateDesign(event.matches).then((result) => {
     checkLoaded(result.timestamp, loader);
   });
@@ -93,6 +109,12 @@ mqlDefault.addEventListener('change', (event) => {
   if (!event.matches) return;
   loader.style.display = 'flex';
 
+  const element = document.querySelector('.modal-description-img');
+
+  if (element) {
+    element.remove();
+  }
+
   updateDesign(event.matches).then((result) => {
     checkLoaded(result.timestamp, loader);
   });
@@ -101,7 +123,7 @@ mqlDefault.addEventListener('change', (event) => {
   booksAnimation();
 });
 
-form.addEventListener('submit', (event) => {
+messageForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const name = document.querySelector('#Name');
@@ -109,7 +131,6 @@ form.addEventListener('submit', (event) => {
   const sticker = document.querySelector('#selectedsticker');
   const stickersContainer = document.querySelector('.stickers-input');
   const scrollPosition = window.scrollY;
-
 
   // Validate all fields and show errors
   const isNameValid = validateField(name, html.lang);
@@ -128,7 +149,6 @@ form.addEventListener('submit', (event) => {
   loader.style.display = 'flex';
   const startMessageLoadingTime = Date.now();
 
-
   sendMessage(messageContainer, newMessage)
     .then(() => {
       name.value = '';
@@ -143,6 +163,54 @@ form.addEventListener('submit', (event) => {
   requestAnimationFrame(() => {
     window.scrollTo(0, scrollPosition);
   });
+});
+
+modalForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const modalFormLoader = document.querySelector('.modal-form-loader');
+  const email = document.querySelector('#modal-form-email');
+  const isEmailValid = validatedEmail(email, html.lang);
+
+  if (!isEmailValid) {
+    email.value = '';
+    return;
+  }
+
+  modalFormLoader.style.display = 'flex';
+  const element = document.querySelector('.modal-response');
+  const message = document.createElement('img');
+
+  subscribeToNewsletter(email.value)
+    .then((result) => {
+      if (!result.success) {
+        let imageSrc =
+          html.lang === 'ru'
+            ? './assets/fail-ru.webp'
+            : './assets/fail-en.webp';
+        message.src = imageSrc;
+        message.alt = 'Error sending email';
+        message.classList.add('modal-response-img', 'error-email-response');
+        element.appendChild(message);
+        return;
+      }
+
+      let imageSrc =
+        html.lang === 'ru'
+          ? './assets/success-ru.webp'
+          : './assets/success-en.webp';
+      message.src = imageSrc;
+      message.alt = 'Success sent email';
+      message.classList.add('modal-response-img', 'success-email-response');
+      element.appendChild(message);
+    })
+    .catch((error) => {
+      console.log({ error });
+    })
+    .finally(() => {
+      modalFormLoader.style.display = 'none';
+      email.value = '';
+    });
 });
 
 function clearStickersSelection(container) {
@@ -254,5 +322,10 @@ document.addEventListener('click', async (e) => {
     } catch (error) {
       console.log({ error });
     }
+  }
+
+  if (e.target === modal) {
+    localStorage.setItem('canOpenModal', 'false');
+    modal.style.display = 'none';
   }
 });

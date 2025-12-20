@@ -304,6 +304,7 @@ button {
 }
 
 .form-submit-button,
+.modal-form-submit-button,
 .load-more-msg-button,
 .sticker-button {
   background-color: transparent;
@@ -367,7 +368,7 @@ button {
   align-items: flex-start;
 }
 
-label {
+.message-form-label {
   min-width: 78px;
   font-size: 1.625rem;
   font-style: italic;
@@ -413,12 +414,11 @@ label {
   border-color: transparent;
 }
 
-
-.input-invalid {
-  background-image: url("./assets/error_input_frame.webp");
+.input-wrapper .input-invalid {
+  background-image: url('./assets/error_input_frame.webp');
 }
 
-.message-invalid {
+.input-wrapper .message-invalid {
   background-image: url('./assets/error_description_frame.webp');
 }
 
@@ -468,37 +468,37 @@ label {
 }
 
 .invalid-input.removing,
-.invalid-textarea.removing {
+.invalid-textarea.removing,
+.invalid-email.removing {
   animation: fadeOutError 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-
-input {
+.name-form-input {
   background-image: url('./assets/input_frame.webp');
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #c73e3e;
+  background-color: transparent;
 }
 
-textarea {
+.message-form-input {
   background-image: url('./assets/description_frame.webp');
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #c73e3e;
+  background-color: transparent;
   resize: none;
   min-height: 200px;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
 
-input::after {
+.name-form-input::after {
   content: '';
   background-image: url('./assets/error_input_frame.webp');
 }
 
-textarea::after {
+.message-form-input::after {
   content: '';
   background-image: url('./assets/error_description_frame.webp');
 }
@@ -739,6 +739,212 @@ textarea::after {
 
 .menu-active {
   animation: 1.6s ease-out 0.8ms forwards activeMenu;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-image: url('./assets/subscribe-en.webp');
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto;
+  max-width: 56.25rem;
+  width: calc(100% - 63px);
+  aspect-ratio: 1920 / 1341;
+  height: auto;
+  overflow: hidden;
+}
+
+.modal-content:lang(ru) {
+  background-image: url('./assets/subscribe-ru.webp');
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content-container {
+  position: absolute;
+  display: grid;
+  grid-template-columns: minmax(49.27%, 27.938rem) minmax(50.73%, 28.313rem);
+  grid-template-rows: 1fr;
+  width: 100%;
+  height: 32.87%;
+  bottom: 0;
+  left: 0;
+}
+
+.modal-form {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-response {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-response-img {
+  position: relative;
+  height: auto;
+}
+
+.modal-response-img.invalid-email-response {
+  bottom: -14px;
+  width: 77.43%;
+}
+
+.modal-response-img.invalid-email-response:lang(ru) {
+  bottom: -9px;
+}
+
+.modal-response-img.success-email-response {
+  bottom: -21px;
+  width: 41.59%;
+}
+
+.modal-response-img.success-email-response:lang(ru) {
+  width: 44.56%;
+  bottom: -10px;
+}
+
+.modal-response-img.error-email-response {
+  bottom: -12px;
+  width: 77.4%;
+}
+
+.modal-response-img.error-email-response:lang(ru) {
+  width: 52.43%;
+  bottom: -7px;
+}
+
+.modal-form-loader {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  /* background-color: #ffeed9; */
+}
+
+.loader-video {
+  /* max-width: 29.988rem; */
+  max-width: 40.988rem;
+  height: auto;
+}
+
+.modal-form-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 27.938rem;
+  width: 100%;
+  height: 100%;
+  padding: 20px 3.188rem 0px 3.188rem;
+}
+
+.modal-form-tags {
+  max-width: 21.688rem;
+  width: 100%;
+  height: auto;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+#modal-form-input-container {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(16px, 2.5vw, 24px);
+  color: #000000;
+  margin-bottom: 1.2vh;
+}
+
+.modal-form-label {
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-family: sans-serif;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #625d5f;
+}
+
+.modal-form-input {
+  font-family: 'candaralight', sans-serif;
+  font-weight: 600;
+  appearance: none;
+  border: 1.5px solid transparent;
+  color: #000000;
+  padding: 10px;
+  border-radius: 2px;
+  line-height: 1.2;
+  max-width: 21.688rem;
+  font-size: 1rem;
+  background-color: transparent;
+  background-image: url('./assets/border-modal-input.webp');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.modal-form-input::placeholder {
+  color: #000000;
+}
+
+.modal-form-input:focus {
+  outline: none;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.modal-form-submit-button-img {
+  max-width: 21.688rem;
+  width: 100%;
+  height: auto;
+}
+
+.invalid-email {
+  height: 19.5px;
+  color: #c73e3e;
+  font-family: 'candara', sans-serif;
+  font-weight: 500;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  opacity: 0;
+  animation: fadeInError 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes activeMenu {
