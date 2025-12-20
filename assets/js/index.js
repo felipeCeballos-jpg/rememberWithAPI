@@ -209,7 +209,7 @@ modalForm.addEventListener('submit', (event) => {
       setTimeout(() => {
         modalFormLoader.style.display = 'none';
         email.value = '';
-      }, 1500);
+      }, 3000);
     })
     .catch((error) => {
       console.log({ error });
