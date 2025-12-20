@@ -100,6 +100,7 @@ export async function subscribeToNewsletter(email) {
     });
 
     const data = await response.json();
+    console.log({ data, response });
 
     if (data.status !== 201) {
       return {
