@@ -91,14 +91,14 @@ export function preloadModalBackground(isMobile,language) {
   if (isMobile) {
     images.push(
       language === 'ru'
-        ? './assets/subscriber-mobile-ru.webp'
-        : './assets/subscriber-mobile-en.webp'
+        ? './assets/subscribe-mobile-ru.webp'
+        : './assets/subscribe-mobile-en.webp'
     );
   } else {
     images.push(
       language === 'ru'
-        ? './assets/subscriber-ru.webp'
-        : './assets/subscriber-en.webp'
+        ? './assets/subscribe-ru.webp'
+        : './assets/subscribe-en.webp'
     );
   }
 
