@@ -183,6 +183,7 @@ modalForm.addEventListener('submit', (event) => {
 
   subscribeToNewsletter(email.value)
     .then((result) => {
+      console.log({ result });
       if (!result.success) {
         let imageSrc =
           html.lang === 'ru'
