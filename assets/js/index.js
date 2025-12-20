@@ -183,7 +183,6 @@ modalForm.addEventListener('submit', (event) => {
 
   subscribeToNewsletter(email.value)
     .then((result) => {
-      console.log({ result });
       if (!result.success) {
         let imageSrc =
           html.lang === 'ru'
@@ -193,23 +192,23 @@ modalForm.addEventListener('submit', (event) => {
         message.alt = 'Error sending email';
         message.classList.add('modal-response-img', 'error-email-response');
         element.appendChild(message);
-        return;
+      } else {
+        let imageSrc =
+        html.lang === 'ru'
+            ? './assets/success-ru.webp'
+            : './assets/success-en.webp';
+        message.src = imageSrc;
+        message.alt = 'Success sent email';
+        message.classList.add('modal-response-img', 'success-email-response');
+        element.appendChild(message);
       }
 
-      let imageSrc =
-        html.lang === 'ru'
-          ? './assets/success-ru.webp'
-          : './assets/success-en.webp';
-      message.src = imageSrc;
-      message.alt = 'Success sent email';
-      message.classList.add('modal-response-img', 'success-email-response');
-      element.appendChild(message);
     })
     .then(() => {
       setTimeout(() => {
         modalFormLoader.style.display = 'none';
         email.value = '';
-      }, 3000);
+      }, 2000);
     })
     .catch((error) => {
       console.log({ error });
