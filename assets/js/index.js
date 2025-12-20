@@ -218,7 +218,7 @@ modalForm.addEventListener('submit', (event) => {
       setTimeout(() => {
         localStorage.setItem('canOpenModal', 'false');
         modal.style.display = 'none';
-      }, 2000);
+      }, 4000);
     });
 });
 
