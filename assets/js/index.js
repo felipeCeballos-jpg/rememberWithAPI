@@ -211,8 +211,11 @@ modalForm.addEventListener('submit', async (event) => {
     console.log({ error });
   }
   finally {
-    modalFormLoader.style.display = 'none';
-    email.value = '';
+
+    setTimeout(() => {
+      modalFormLoader.style.display = 'none';
+      email.value = '';
+    }, 1000);
     
     setTimeout(() => {
         if (isSuccess) {
