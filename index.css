@@ -947,6 +947,10 @@ button {
   animation: fadeInError 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+video {
+  pointer-events: none;
+}
+
 @keyframes activeMenu {
   from {
     transform: translateY(19rem);
