@@ -645,9 +645,9 @@ export function validatedEmail(input, lang) {
     return false;
   }
 
-  setTimeout(() => {
+  /* setTimeout(() => {
     modalResponse.textContent = '';
-  }, 1000);
+  }, 1000); */
 
   return true;
 }

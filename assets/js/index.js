@@ -177,7 +177,9 @@ modalForm.addEventListener('submit', async (event) => {
     return;
   }
 
-  modalFormLoader.style.display = 'flex';
+  modalFormLoader.classList.add('active-modal-form-loader');
+  modalFormLoader.classList.remove('inactive-modal-form-loader');
+
   const element = document.querySelector('.modal-response');
   const message = document.createElement('img');
   let isSuccess = false;
@@ -211,11 +213,9 @@ modalForm.addEventListener('submit', async (event) => {
     console.log({ error });
   }
   finally {
-
-    setTimeout(() => {
-      modalFormLoader.style.display = 'none';
-      email.value = '';
-    }, 1000);
+    email.value = '';
+    modalFormLoader.classList.remove('active-modal-form-loader');
+    modalFormLoader.classList.add('inactive-modal-form-loader');
     
     setTimeout(() => {
         if (isSuccess) {
