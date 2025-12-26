@@ -224,7 +224,7 @@ modalForm.addEventListener('submit', async (event) => {
             localStorage.setItem('canOpenModal', 'false');
             modal.style.display = 'none';
           }
-        }, 4000);
+        }, 2500);
         // Image loaded successfully
     })
     .catch(() => {

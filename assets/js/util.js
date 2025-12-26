@@ -33,6 +33,13 @@ export function initLanguage(html) {
     html.lang = INITIAL_LANGUAGE;
     return;
   }
+
+  if (language !== 'ru' && language !== 'en') {
+    localStorage.setItem('language', INITIAL_LANGUAGE);
+    html.lang = INITIAL_LANGUAGE;
+    return;
+  }
+  
   html.lang = language;
 }
 
