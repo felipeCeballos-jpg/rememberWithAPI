@@ -213,16 +213,23 @@ modalForm.addEventListener('submit', async (event) => {
     console.log({ error });
   }
   finally {
-    email.value = '';
-    modalFormLoader.classList.remove('active-modal-form-loader');
-    modalFormLoader.classList.add('inactive-modal-form-loader');
-    
-    setTimeout(() => {
-        if (isSuccess) {
-          localStorage.setItem('canOpenModal', 'false');
-          modal.style.display = 'none';
-        }
-      }, 4000);
+    message.decode()
+    .then(() => {
+      email.value = '';
+      modalFormLoader.classList.remove('active-modal-form-loader');
+      modalFormLoader.classList.add('inactive-modal-form-loader');
+      
+      setTimeout(() => {
+          if (isSuccess) {
+            localStorage.setItem('canOpenModal', 'false');
+            modal.style.display = 'none';
+          }
+        }, 4000);
+        // Image loaded successfully
+    })
+    .catch(() => {
+        // Error loading image
+    });
   }
   /*subscribeToNewsletter(email.value)
     .then((result) => {
