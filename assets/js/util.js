@@ -627,6 +627,9 @@ export async function validatedEmail(input, lang) {
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const startLoadingTime = Date.now();
   const maxLoadingTime = 2500; // 2.5 seconds
+
+  modalFormLoader.classList.add('active-modal-form-loader');
+  modalFormLoader.classList.remove('inactive-modal-form-loader');
   
   // Clear previous response messages
   modalResponse.textContent = '';
