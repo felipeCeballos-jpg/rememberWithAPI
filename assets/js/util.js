@@ -39,7 +39,7 @@ export function initLanguage(html) {
     html.lang = INITIAL_LANGUAGE;
     return;
   }
-  
+
   html.lang = language;
 }
 
@@ -625,31 +625,70 @@ export function validateField(input, lang) {
 export function validatedEmail(input, lang) {
   const modalResponse = document.querySelector('.modal-response');
   const message = document.createElement('img');
-
+  const modalFormLoader = document.querySelector('.modal-form-loader');
+  const startLoadingTime = Date.now();
+  const maxLoadingTime = 2500; // 2.5 seconds
+  
+  
+  modalFormLoader.classList.add('active-modal-form-loader');
+  modalFormLoader.classList.remove('inactive-modal-form-loader');
+  
   if (modalResponse.children.length > 0) {
     modalResponse.textContent = '';
   }
-
+  
   if (input.value.trim() === '') {
     let imageSrc =
       lang === 'ru' ? './assets/fail-ru.webp' : './assets/fail-en.webp';
     message.src = imageSrc;
     message.alt = 'Error sending email';
     message.classList.add('modal-response-img', 'error-email-response');
-
+      
     modalResponse.appendChild(message);
-    return false;
-  }
+    
+    message.decode().then(() => {
+      const elapsedTime = Date.now() - startLoadingTime;
+      const timeRemaining = maxLoadingTime - elapsedTime;
 
+      if (elapsedTime < maxLoadingTime) {
+        setTimeout(() => {
+          modalFormLoader.classList.remove('active-modal-form-loader');
+          modalFormLoader.classList.add('inactive-modal-form-loader');
+          return false;
+        }, timeRemaining);
+      } else {
+        modalFormLoader.classList.remove('active-modal-form-loader');
+        modalFormLoader.classList.add('inactive-modal-form-loader');
+        return false;
+      }
+    });
+  }
+  
   if (!isValidEmail(input.value)) {
     let imageSrc =
-      lang === 'ru' ? './assets/email-ru.webp' : './assets/email-en.webp';
+    lang === 'ru' ? './assets/email-ru.webp' : './assets/email-en.webp';
     message.src = imageSrc;
     message.alt = 'Invalid email';
     message.classList.add('modal-response-img', 'invalid-email-response');
-
+    
     modalResponse.appendChild(message);
-    return false;
+
+    message.decode().then(() => {
+      const elapsedTime = Date.now() - startLoadingTime;
+      const timeRemaining = maxLoadingTime - elapsedTime;
+
+      if (elapsedTime < maxLoadingTime) {
+        setTimeout(() => {
+          modalFormLoader.classList.remove('active-modal-form-loader');
+          modalFormLoader.classList.add('inactive-modal-form-loader');
+          return false;
+        }, timeRemaining);
+      } else {
+        modalFormLoader.classList.remove('active-modal-form-loader');
+        modalFormLoader.classList.add('inactive-modal-form-loader');
+        return false;
+      }
+    });
   }
 
   /* setTimeout(() => {
