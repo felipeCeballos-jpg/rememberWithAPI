@@ -622,79 +622,71 @@ export function validateField(input, lang) {
   return true;
 }
 
-export function validatedEmail(input, lang) {
+export async function validatedEmail(input, lang) {
   const modalResponse = document.querySelector('.modal-response');
-  const message = document.createElement('img');
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const startLoadingTime = Date.now();
   const maxLoadingTime = 2500; // 2.5 seconds
   
+  // Clear previous response messages
+  modalResponse.textContent = '';
+
+  // Helper to hide loader with minimum display time
+  const hideLoaderAfterMinTime = async () => {
+    modalFormLoader.classList.remove('active-modal-form-loader');
+    modalFormLoader.classList.add('inactive-modal-form-loader');
+  };
   
-  modalFormLoader.classList.add('active-modal-form-loader');
-  modalFormLoader.classList.remove('inactive-modal-form-loader');
-  
-  if (modalResponse.children.length > 0) {
-    modalResponse.textContent = '';
-  }
-  
+  // Helper to show error image with minimum loading time
+  const showErrorImage = async (imageSrc, altText, className) => {
+    const message = document.createElement('img');
+    message.src = imageSrc;
+    message.alt = altText;
+    message.classList.add('modal-response-img', className);
+
+
+    // Calculate remaining time to meet minimum loading duration
+    const elapsed = Date.now() - startLoadingTime;
+    const remainingTime = Math.max(0, maxLoadingTime - elapsed);
+
+
+    // Wait for both: image decode AND minimum loading time
+    // If image loads fast, wait until maxLoadingTime
+    // If image loads slow, show immediately when ready
+    await Promise.all([
+      message.decode(),
+      new Promise((resolve) => setTimeout(resolve, remainingTime)),
+    ]);
+
+    modalResponse.appendChild(message);
+    await hideLoaderAfterMinTime();
+  };
+
+
+  // Validation: invalid email format
   if (input.value.trim() === '') {
     let imageSrc =
       lang === 'ru' ? './assets/fail-ru.webp' : './assets/fail-en.webp';
-    message.src = imageSrc;
-    message.alt = 'Error sending email';
-    message.classList.add('modal-response-img', 'error-email-response');
-      
-    modalResponse.appendChild(message);
-    
-    message.decode().then(() => {
-      const elapsedTime = Date.now() - startLoadingTime;
-      const timeRemaining = maxLoadingTime - elapsedTime;
-
-      if (elapsedTime < maxLoadingTime) {
-        setTimeout(() => {
-          modalFormLoader.classList.remove('active-modal-form-loader');
-          modalFormLoader.classList.add('inactive-modal-form-loader');
-          return false;
-        }, timeRemaining);
-      } else {
-        modalFormLoader.classList.remove('active-modal-form-loader');
-        modalFormLoader.classList.add('inactive-modal-form-loader');
-        return false;
-      }
-    });
+    await showErrorImage(
+      imageSrc, 
+      'Error sending email', 
+      'error-email-response'
+    );
+    return false;
   }
-  
+
+
   if (!isValidEmail(input.value)) {
     let imageSrc =
-    lang === 'ru' ? './assets/email-ru.webp' : './assets/email-en.webp';
-    message.src = imageSrc;
-    message.alt = 'Invalid email';
-    message.classList.add('modal-response-img', 'invalid-email-response');
-    
-    modalResponse.appendChild(message);
-
-    message.decode().then(() => {
-      const elapsedTime = Date.now() - startLoadingTime;
-      const timeRemaining = maxLoadingTime - elapsedTime;
-
-      if (elapsedTime < maxLoadingTime) {
-        setTimeout(() => {
-          modalFormLoader.classList.remove('active-modal-form-loader');
-          modalFormLoader.classList.add('inactive-modal-form-loader');
-          return false;
-        }, timeRemaining);
-      } else {
-        modalFormLoader.classList.remove('active-modal-form-loader');
-        modalFormLoader.classList.add('inactive-modal-form-loader');
-        return false;
-      }
-    });
+      lang === 'ru' ? './assets/email-ru.webp' : './assets/email-en.webp';
+    await showErrorImage(
+      imageSrc,
+      'Invalid email',
+      'invalid-email-response'
+    );
+    return false;
   }
-
-  /* setTimeout(() => {
-    modalResponse.textContent = '';
-  }, 1000); */
-
+  
   return true;
 }
 

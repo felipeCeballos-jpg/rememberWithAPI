@@ -170,7 +170,7 @@ modalForm.addEventListener('submit', async (event) => {
 
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const email = document.querySelector('#modal-form-email');
-  const isEmailValid = validatedEmail(email, html.lang);
+  const isEmailValid = await validatedEmail(email, html.lang);
 
   if (!isEmailValid) {
     email.value = '';
