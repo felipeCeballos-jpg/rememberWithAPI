@@ -18,6 +18,12 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'B52';
+  src: url('./assets/font/B52.ttf') format('truetype');
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   padding: 0px;
@@ -923,17 +929,16 @@ button {
 }
 
 .modal-form-label {
-  font-size: clamp(14px, 1.5vw, 16px);
-  font-family: sans-serif;
-  font-weight: 600;
+  font-size: clamp(14px, 2.2vw, 22px);
+  font-family: 'B52', sans-serif;
+  font-weight: 100;
   margin-bottom: 10px;
-  text-transform: uppercase;
   color: #625d5f;
 }
 
 .modal-form-input {
-  font-family: 'candaralight', sans-serif;
-  font-weight: 600;
+  font-family: 'B52', sans-serif;
+  font-weight: 100;
   appearance: none;
   border: 1.5px solid transparent;
   color: #000000;

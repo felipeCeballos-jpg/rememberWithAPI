@@ -366,7 +366,7 @@
   }
 
   .modal-form-label {
-    font-size: clamp(11px, 2.5vw, 16px);
+    font-size: clamp(11px, 4.5vw, 24px);
   }
 
   .modal-form-input {
