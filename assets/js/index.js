@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   if (!canOpenModal || canOpenModal === 'true') {
     setTimeout(() => {
-      modal.style.display = 'flex';
+      modal.classList.add('modal-visible');
       localStorage.setItem('canOpenModal', 'true');
     }, 10000);
   }
@@ -222,7 +222,7 @@ modalForm.addEventListener('submit', async (event) => {
       setTimeout(() => {
           if (isSuccess) {
             localStorage.setItem('canOpenModal', 'false');
-            modal.style.display = 'none';
+            modal.classList.remove('modal-visible');
           }
         }, 2500);
         // Image loaded successfully
@@ -391,6 +391,6 @@ document.addEventListener('click', async (e) => {
 
   if (e.target === modal) {
     localStorage.setItem('canOpenModal', 'false');
-    modal.style.display = 'none';
+    modal.classList.remove('modal-visible');
   }
 });
