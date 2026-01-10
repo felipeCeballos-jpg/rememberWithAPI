@@ -233,44 +233,42 @@
         <div class="modal-content-container">
           <div class="modal-form">
             <div class="modal-form-loader">
-              <video
-                autoplay
-                muted
-                loop
-                preload="metadata"
-                playsinline
-                webkit-playsinline
-                class="loader-video"
-              >
-                <source src="./assets/parrot-loader.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <form class="modal-form-content">
-              <img
-                src="./assets/tags.webp"
-                alt="Decorations lines"
-                class="modal-form-tags"
-              />
-              <div id="modal-form-input-container">
-                <label
-                  for="modal-form-email"
-                  class="changeable-txt modal-form-label"
-                  >Enter Your Email:</label
-                >
-                <input
-                  id="modal-form-email"
-                  name="modal-form-email"
-                  class="modal-form-input"
-                  autocomplete="off"
+              <div class="loader-submit-modal-container">
+                <img
+                  src="./assets/loader-email-subscription-en.GIF"
+                  class="loader-submit-modal changeable-img"
+                  alt="loading..."
                 />
               </div>
-              <button class="modal-form-submit-button">
+            </div>
+            <form class="modal-form-content">
+              <div class="modal-form-mask">
                 <img
-                  alt="Press to enviar the message"
-                  class="modal-form-submit-button-img changeable-img"
-                  src="./assets/modal-button-en.webp"
+                  src="./assets/tags.webp"
+                  alt="Decorations lines"
+                  class="modal-form-tags"
                 />
-              </button>
+                <div id="modal-form-input-container">
+                  <label
+                    for="modal-form-email"
+                    class="changeable-txt modal-form-label"
+                    >Enter Your Email:</label
+                  >
+                  <input
+                    id="modal-form-email"
+                    name="modal-form-email"
+                    class="modal-form-input"
+                    autocomplete="off"
+                  />
+                </div>
+                <button class="modal-form-submit-button">
+                  <img
+                    alt="Press to enviar the message"
+                    class="modal-form-submit-button-img changeable-img"
+                    src="./assets/modal-button-en.webp"
+                  />
+                </button>
+              </div>
             </form>
           </div>
           <div class="modal-response"></div>

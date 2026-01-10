@@ -88,6 +88,12 @@ export async function updateImages(language) {
 export function preloadModalBackground(isMobile,language) {
   const images = [];
 
+  images.push(
+    language === 'ru'
+      ? './assets/loader-email-subscription-ru.GIF'
+      : './assets/loader-email-subscription-en.GIF'
+  )
+
   if (isMobile) {
     images.push(
       language === 'ru'

@@ -167,7 +167,7 @@ messageForm.addEventListener('submit', (event) => {
 
 modalForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-
+  const modalFormMask = document.querySelector('.modal-form-mask');
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const email = document.querySelector('#modal-form-email');
   const isEmailValid = await validatedEmail(email, html.lang);
@@ -177,6 +177,8 @@ modalForm.addEventListener('submit', async (event) => {
     return;
   }
 
+  modalFormMask.classList.add('active-modal-form-mask');
+  modalFormMask.classList.remove('inactive-modal-form-mask');
   modalFormLoader.classList.add('active-modal-form-loader');
   modalFormLoader.classList.remove('inactive-modal-form-loader');
 
@@ -216,6 +218,8 @@ modalForm.addEventListener('submit', async (event) => {
     message.decode()
     .then(() => {
       email.value = '';
+      modalFormMask.classList.add('inactive-modal-form-mask');
+      modalFormMask.classList.remove('active-modal-form-mask');
       modalFormLoader.classList.remove('active-modal-form-loader');
       modalFormLoader.classList.add('inactive-modal-form-loader');
       

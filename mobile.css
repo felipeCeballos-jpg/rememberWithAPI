@@ -350,6 +350,10 @@
     left: -6.25%;
   }
 
+  .loader-submit-modal {
+    width: 59vmin;
+  }
+
   .modal-form-content {
     padding: 2.2vmin clamp(8px, 2vmin, 12px) clamp(8px, 2vmin, 12px)
       clamp(8px, 2vmin, 12px);
@@ -608,6 +612,10 @@
 
   .modal-form {
     margin: 0vmax 8.5vmax 5vmax 8.5vmax;
+  }
+
+  .loader-submit-modal {
+    width: 59vmax;
   }
 
   .modal-form-content {
