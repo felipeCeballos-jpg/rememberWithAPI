@@ -1,4 +1,4 @@
-import { INITIAL_LANGUAGE, localizedText, stickerInfo } from './constant.js';
+import { INITIAL_LANGUAGE, localizedText, stickerInfo, MODAL_SUBSCRIBE_LOADING_TIME } from './constant.js';
 import { preloadModalBackground, updateImages } from './image.js';
 
 export let paginationPage = 1;
@@ -627,7 +627,7 @@ export async function validatedEmail(input, lang) {
   const modalResponse = document.querySelector('.modal-response');
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const startLoadingTime = Date.now();
-  const maxLoadingTime = 2500; // 2.5 seconds
+  const maxLoadingTime = MODAL_SUBSCRIBE_LOADING_TIME; // 4.3 seconds
 
   modalFormMask.classList.add('active-modal-form-mask');
   modalFormMask.classList.remove('inactive-modal-form-mask');

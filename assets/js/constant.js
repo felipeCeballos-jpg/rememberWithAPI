@@ -1,5 +1,7 @@
 export const INITIAL_LANGUAGE = 'ru';
 
+export const MODAL_SUBSCRIBE_LOADING_TIME = 4300;
+
 export const db = [
   {
     id: crypto.randomUUID,

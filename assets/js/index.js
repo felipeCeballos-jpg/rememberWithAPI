@@ -19,6 +19,8 @@ import {
   subscribeToNewsletter,
 } from './util.js';
 
+import { MODAL_SUBSCRIBE_LOADING_TIME } from './constant.js';
+
 const switchLanguageButton = document.querySelector('.language-button');
 const html = document.querySelector('html');
 const messageForm = document.querySelector('.form-container');
@@ -182,6 +184,7 @@ modalForm.addEventListener('submit', async (event) => {
   modalFormLoader.classList.add('active-modal-form-loader');
   modalFormLoader.classList.remove('inactive-modal-form-loader');
 
+  const loaderStartTime = Date.now();
   const element = document.querySelector('.modal-response');
   const message = document.createElement('img');
   let isSuccess = false;
@@ -218,68 +221,29 @@ modalForm.addEventListener('submit', async (event) => {
     message.decode()
     .then(() => {
       email.value = '';
-      modalFormMask.classList.add('inactive-modal-form-mask');
-      modalFormMask.classList.remove('active-modal-form-mask');
-      modalFormLoader.classList.remove('active-modal-form-loader');
-      modalFormLoader.classList.add('inactive-modal-form-loader');
-      
+
+      // Calculate remaining time to reach 4.3s total (don't wait if already exceeded)
+      const elapsed = Date.now() - loaderStartTime;
+      const remainingTime = Math.max(0, MODAL_SUBSCRIBE_LOADING_TIME - elapsed);
+
       setTimeout(() => {
+        modalFormMask.classList.add('inactive-modal-form-mask');
+        modalFormMask.classList.remove('active-modal-form-mask');
+        modalFormLoader.classList.remove('active-modal-form-loader');
+        modalFormLoader.classList.add('inactive-modal-form-loader');
+        
+        setTimeout(() => {
           if (isSuccess) {
             localStorage.setItem('canOpenModal', 'false');
             modal.classList.remove('modal-visible');
           }
         }, 2500);
-        // Image loaded successfully
+      }, remainingTime);
     })
     .catch(() => {
         // Error loading image
     });
   }
-  /*subscribeToNewsletter(email.value)
-    .then((result) => {
-      if (!result.success) {
-        let imageSrc =
-          html.lang === 'ru'
-            ? './assets/fail-ru.webp'
-            : './assets/fail-en.webp';
-        message.src = imageSrc;
-        message.alt = 'Error sending email';
-        message.classList.add('modal-response-img', 'error-email-response');
-        element.appendChild(message);
-        return false;
-
-      }
-
-      let imageSrc =
-      html.lang === 'ru'
-          ? './assets/success-ru.webp'
-          : './assets/success-en.webp';
-      message.src = imageSrc;
-      message.alt = 'Success sent email';
-      message.classList.add('modal-response-img', 'success-email-response');
-      element.appendChild(message);
-      
-      return true;
-    })
-    .then((response) => {
-      setTimeout(() => {
-        modalFormLoader.style.display = 'none';
-        email.value = '';
-      }, 2000);
-
-      return response;
-    })
-    .catch((error) => {
-      console.log({ error });
-    })
-    .finally((response) => {
-      setTimeout(() => {
-        if (response) {
-          localStorage.setItem('canOpenModal', 'false');
-          modal.style.display = 'none';
-        }
-      }, 4000);
-    });*/
 });
 
 function clearStickersSelection(container) {
