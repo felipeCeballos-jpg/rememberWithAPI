@@ -897,17 +897,8 @@ button {
   animation: fadeOut 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.loader-submit-modal-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
 .loader-submit-modal {
-  /* max-width: 29.988rem; */
-  max-width: 15rem;
+  max-width: 29.988rem;
   height: auto;
 }
 
@@ -918,14 +909,6 @@ button {
   width: 100%;
   height: 100%;
   padding: 20px 3.188rem 0px 3.188rem;
-}
-
-.modal-form-mask.active-modal-form-mask {
-  display: none;
-}
-
-.modal-form-mask.inactive-modal-form-mask {
-  display: block;
 }
 
 .modal-form-tags {

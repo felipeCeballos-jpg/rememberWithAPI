@@ -19,8 +19,6 @@ import {
   subscribeToNewsletter,
 } from './util.js';
 
-import { MODAL_SUBSCRIBE_LOADING_TIME } from './constant.js';
-
 const switchLanguageButton = document.querySelector('.language-button');
 const html = document.querySelector('html');
 const messageForm = document.querySelector('.form-container');
@@ -46,7 +44,7 @@ initLanguage(html);
 
 const startLoadingTime = Date.now();
 window.addEventListener('load', () => {
-  checkLoaded(startLoadingTime, loader, true); // TODO: Fix the body scroll when the page is loading
+  checkLoaded(startLoadingTime, loader, true, null, 'default');
 });
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -84,7 +82,7 @@ switchLanguageButton.addEventListener('click', () => {
   setLanguage(html);
 
   updateDesign(mqlMobile.matches).then((result) => {
-    checkLoaded(result.timestamp, loader, true);
+    checkLoaded(result.timestamp, loader, true, null, 'default');
   });
 
   initFormValidation(html.lang);
@@ -100,7 +98,7 @@ mqlMobile.addEventListener('change', (event) => {
   initModalDescriptionImg(html.lang, event.matches);
 
   updateDesign(event.matches).then((result) => {
-    checkLoaded(result.timestamp, loader);
+    checkLoaded(result.timestamp, loader, false, null, 'default');
   });
 
   sideElementsAnimation();
@@ -118,7 +116,7 @@ mqlDefault.addEventListener('change', (event) => {
   }
 
   updateDesign(event.matches).then((result) => {
-    checkLoaded(result.timestamp, loader);
+    checkLoaded(result.timestamp, loader, false, null, 'default');
   });
 
   sideElementsAnimation();
@@ -132,6 +130,7 @@ messageForm.addEventListener('submit', (event) => {
   const message = document.querySelector('#Message');
   const sticker = document.querySelector('#selectedsticker');
   const stickersContainer = document.querySelector('.stickers-input');
+  const loaderImage = document.querySelector('.loader-img');
   const scrollPosition = window.scrollY;
 
   // Validate all fields and show errors
@@ -149,6 +148,11 @@ messageForm.addEventListener('submit', (event) => {
     sticker: sticker.value,
   };
   loader.style.display = 'flex';
+  loaderImage.src =
+    html.lang === 'ru'
+      ? './assets/form-loader-ru.GIF'
+      : './assets/form-loader-en.GIF';
+
   const startMessageLoadingTime = Date.now();
 
   sendMessage(messageContainer, newMessage)
@@ -159,7 +163,14 @@ messageForm.addEventListener('submit', (event) => {
       clearStickersSelection(stickersContainer);
     })
     .finally(() => {
-      checkLoaded(startMessageLoadingTime, loader, true);
+      const elapsed = Date.now() - startMessageLoadingTime;
+      const time = html.lang === 'ru' ? 4100 : 4400;
+      const remainingTime = Math.max(0, time - elapsed);
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+        loaderImage.src = './assets/loading.GIF';
+      }, remainingTime);
     });
 
   requestAnimationFrame(() => {
@@ -169,7 +180,6 @@ messageForm.addEventListener('submit', (event) => {
 
 modalForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const modalFormMask = document.querySelector('.modal-form-mask');
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const email = document.querySelector('#modal-form-email');
   const isEmailValid = await validatedEmail(email, html.lang);
@@ -179,12 +189,9 @@ modalForm.addEventListener('submit', async (event) => {
     return;
   }
 
-  modalFormMask.classList.add('active-modal-form-mask');
-  modalFormMask.classList.remove('inactive-modal-form-mask');
   modalFormLoader.classList.add('active-modal-form-loader');
   modalFormLoader.classList.remove('inactive-modal-form-loader');
 
-  const loaderStartTime = Date.now();
   const element = document.querySelector('.modal-response');
   const message = document.createElement('img');
   let isSuccess = false;
@@ -221,24 +228,15 @@ modalForm.addEventListener('submit', async (event) => {
     message.decode()
     .then(() => {
       email.value = '';
-
-      // Calculate remaining time to reach 4.3s total (don't wait if already exceeded)
-      const elapsed = Date.now() - loaderStartTime;
-      const remainingTime = Math.max(0, MODAL_SUBSCRIBE_LOADING_TIME - elapsed);
-
+      modalFormLoader.classList.remove('active-modal-form-loader');
+      modalFormLoader.classList.add('inactive-modal-form-loader');
+      
       setTimeout(() => {
-        modalFormMask.classList.add('inactive-modal-form-mask');
-        modalFormMask.classList.remove('active-modal-form-mask');
-        modalFormLoader.classList.remove('active-modal-form-loader');
-        modalFormLoader.classList.add('inactive-modal-form-loader');
-        
-        setTimeout(() => {
-          if (isSuccess) {
-            localStorage.setItem('canOpenModal', 'false');
-            modal.classList.remove('modal-visible');
-          }
-        }, 2500);
-      }, remainingTime);
+        if (isSuccess) {
+          localStorage.setItem('canOpenModal', 'false');
+          modal.classList.remove('modal-visible');
+        }
+      }, 2500);
     })
     .catch(() => {
         // Error loading image

@@ -1,5 +1,12 @@
-import { INITIAL_LANGUAGE, localizedText, stickerInfo, MODAL_SUBSCRIBE_LOADING_TIME } from './constant.js';
+import { 
+  INITIAL_LANGUAGE, 
+  localizedText, 
+  stickerInfo, 
+  MESSAGE_FORM_LOADING_TIME_EN, 
+  MESSAGE_FORM_LOADING_TIME_RU, 
+} from './constant.js';
 import { preloadModalBackground, updateImages } from './image.js';
+
 
 export let paginationPage = 1;
 
@@ -7,8 +14,17 @@ export function checkLoaded(
   startTime,
   loaderElement,
   delayLoadingPage = false,
-  animationFn = null
+  animationFn = null,
+  loaderType = 'default',
 ) {
+  if (loaderType === 'default') {
+    const loaderImg = loaderElement.querySelector('.loader-img');
+    
+    if (loaderImg) {
+      loaderImg.src = './assets/loading.GIF';
+    }
+  }
+  
   const maxLoadingTime = 2500; // 2.5 seconds
   const elapsedTime = Date.now() - startTime;
 
@@ -623,14 +639,11 @@ export function validateField(input, lang) {
 }
 
 export async function validatedEmail(input, lang) {
-  const modalFormMask = document.querySelector('.modal-form-mask');
   const modalResponse = document.querySelector('.modal-response');
   const modalFormLoader = document.querySelector('.modal-form-loader');
   const startLoadingTime = Date.now();
-  const maxLoadingTime = MODAL_SUBSCRIBE_LOADING_TIME; // 4.3 seconds
+  const maxLoadingTime = 2500; // 2.5 seconds
 
-  modalFormMask.classList.add('active-modal-form-mask');
-  modalFormMask.classList.remove('inactive-modal-form-mask');
   modalFormLoader.classList.add('active-modal-form-loader');
   modalFormLoader.classList.remove('inactive-modal-form-loader');
   
@@ -639,8 +652,6 @@ export async function validatedEmail(input, lang) {
 
   // Helper to hide loader with minimum display time
   const hideLoaderAfterMinTime = async () => {
-    modalFormMask.classList.add('inactive-modal-form-mask');
-    modalFormMask.classList.remove('active-modal-form-mask');
     modalFormLoader.classList.remove('active-modal-form-loader');
     modalFormLoader.classList.add('inactive-modal-form-loader');
   };

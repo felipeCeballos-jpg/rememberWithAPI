@@ -18,7 +18,7 @@
   </head>
   <body>
     <section class="loader">
-      <img src="./assets/loading.GIF" alt="loading.." />
+      <img src="./assets/loading.GIF" class="loader-img" alt="loading.." />
     </section>
     <section class="main-container">
       <section class="main-section remember-section main-bg">
@@ -233,13 +233,20 @@
         <div class="modal-content-container">
           <div class="modal-form">
             <div class="modal-form-loader">
-              <div class="loader-submit-modal-container">
-                <img
-                  src="./assets/loader-email-subscription-en.GIF"
-                  class="loader-submit-modal changeable-img"
-                  alt="loading..."
+              <video
+                autoplay
+                muted
+                loop
+                preload="metadata"
+                playsinline
+                webkit-playsinline
+                class="loader-video"
+              >
+                <source
+                  src="./assets/parrot-loader.mp4"
+                  type="video/mp4"
                 />
-              </div>
+              </video>
             </div>
             <form class="modal-form-content">
               <div class="modal-form-mask">

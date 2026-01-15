@@ -1,6 +1,7 @@
 export const INITIAL_LANGUAGE = 'ru';
 
-export const MODAL_SUBSCRIBE_LOADING_TIME = 4300;
+export const MESSAGE_FORM_LOADING_TIME_EN = 4400;
+export const MESSAGE_FORM_LOADING_TIME_RU = 4100;
 
 export const db = [
   {
@@ -126,7 +127,6 @@ export const originalRuImages = [
   './assets/klubok_en.png',
   './assets/remember-ru1.webp',
   './assets/print-button-ru.webp',
-  './assets/loader-email-subscription-ru.GIF',
   './assets/modal-button-ru.webp',
 ];
 
@@ -134,7 +134,6 @@ export const originalEnImages = [
   './assets/klubok_ru.png',
   './assets/remember-en.webp',
   './assets/print-button-en.webp',
-  './assets/loader-email-subscription-en.GIF',
   './assets/modal-button-en.webp',
 ];
 
